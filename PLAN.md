@@ -2,7 +2,7 @@
 
 ## Overview
 
-Use the upstream [curl test suite](https://github.com/curl/curl/tree/master/tests) to validate the Rust curl rewrite against the real curl CLI behavior, following the same Nix-based testing pattern used by `rust/awk`.
+Use the upstream [curl test suite](https://github.com/curl/curl/tree/master/tests) to validate the Rust curl rewrite against the real curl CLI behavior, following the same Nix-based testing pattern used by `safety/oxidized/awk`.
 
 ## Current Status
 
@@ -162,11 +162,11 @@ Create a Nix derivation that builds the upstream curl project's test servers and
 pkgs.curl.src  →  extract  →  build test servers  →  runtests.pl + servers available
 ```
 
-This is analogous to how `rust/awk/testsuite.nix` extracts `pkgs.gawk.src` to get the gawk test files.
+This is analogous to how `safety/oxidized/awk/testsuite.nix` extracts `pkgs.gawk.src` to get the gawk test files.
 
 ### Phase 1: testsuite.nix — single-test derivation
 
-Create `rust/curl/testsuite.nix` following the `rust/awk` pattern:
+Create `safety/oxidized/curl/testsuite.nix` following the `safety/oxidized/awk` pattern:
 
 ```nix
 # Run a single curl test against rust-curl
@@ -211,7 +211,7 @@ pkgs.runCommand "rust-curl-test-${toString testNum}" {
 
 ### Phase 2: default.nix — test check definitions
 
-Extend `rust/curl/default.nix` with:
+Extend `safety/oxidized/curl/default.nix` with:
 
 1. A `rust-curl-dev` debug build package (for faster test iteration)
 2. A `checks` section mapping test numbers to individual derivations
@@ -259,7 +259,7 @@ Use `runtests.pl -l` and keyword filtering to enumerate candidates.
 
 ### Phase 4: Iterative test adoption
 
-Follow the rust/awk pattern of tracking pass/fail counts:
+Follow the safety/oxidized/awk pattern of tracking pass/fail counts:
 
 1. Start with the simplest tests (test 1 = basic HTTP GET)
 2. Run, identify failures, fix rust-curl
@@ -596,7 +596,7 @@ To expand the passing-test list incrementally, follow this loop:
 
 6. **Update** the "Passing tests" count and list at the top of this file and in the `§ Test Inventory` section.
 
-7. **Commit** with a conventional message describing the fix and new passing count, e.g. `fix(rust/curl): <change> — N/200 passing (N/200)`. Commits follow `.commitlintrc.yml`.
+7. **Commit** with a conventional message describing the fix and new passing count, e.g. `fix(safety/oxidized/curl): <change> — N/200 passing (N/200)`. Commits follow `.commitlintrc.yml`.
 
 Priority targets (highest ROI first):
 
